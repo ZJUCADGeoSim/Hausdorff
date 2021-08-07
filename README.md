@@ -4,9 +4,11 @@
 
 Giving two triangle meshes A.obj and B.obj, the following command
 gives the lower bound L and upper bound U of Hausdorff distance from A.obj to
-B.obj that U-L < error.
+B.obj that `U - L < 1e-6`.
 
-hausdorff -a A.obj -b B.obj -e error -t point
+```bash
+hausdorff -a A.obj -b B.obj -e 1e-6 -c abs -t point
+```
 
 ## Installation
 
@@ -27,12 +29,15 @@ Run with our method for upper bound estimation:
 
 ## More complicated usages
 
-Run with Tang et al. [2009]'s method for upper bound estimation:
+* Run with Tang et al. [2009]'s method for upper bound estimation:
 ```bash
 ./build/bin/hausdorff -a ./sample_data/hand-tri-smooth.obj -b ./sample_data/hand-tri.obj -t triangle
 ```
 
-Relative error can be applied via ...
+* Relative error can be applied via options `-e 0.01 -c rel`, then
+  the stop condition is `U - L < 0.01 * L`
+* Diag-rel error can be applied via options `-e 0.01 -c diag`, then
+  the stop condition is `U - L < 0.01 * diag length of bbox`
 
 ## Motivation of this work
 

@@ -32,31 +32,23 @@ using namespace zjucad::matrix;
 
 LogLevel logs::_level = LogLevel::INFO;
 
+enum class StopCondition {
+    REL,
+    ABS
+};
+
 int main(int argc, char **argv) // parse arguments and call Hausdorff
 {
-    // logs(cout) << ERROR << "error\n" << WARN << "warn\n" << INFO << "info" <<
-    // endl; return 0;
 
     cxxopts::Options options("Hausdorff Distance",
                              "Bounded Controlled Hausdorff Distance Calculator");
-    options.add_options()("a,modelA", "Model A", cxxopts::value<std::string>())(
-        "b,modelB", "Model B",
-        cxxopts::value<
-            std::string>())("e,error",
-                            "Error Tolerance, percentage of the diagronal of the "
-                            "bounding box of model A",
-                            cxxopts::value<
-                                double>())("t,trait", "Calculation Trait",
-                                           cxxopts::value<
-                                               std::string>())("s,subdivision",
-                                                               "Subdivision "
-                                                               "Strategy (true "
-                                                               "to use voronoi "
-                                                               "subdivision)",
-                                                               cxxopts::value<
-                                                                   bool>());
-    // ("v,verbose", "Verbose Output")
-    // ("h,help", "Print Usage");
+    options.add_options()("a,modelA", "Model A", cxxopts::value<std::string>())                                              //
+        ("b,modelB", "Model B", cxxopts::value<std::string>())                                                               //
+        ("e,error", "Error Tolerance, percentage of the diagronal of the bounding box of model A", cxxopts::value<double>()) //
+        ("c,condition", "Stop conditon. Possible values: rel, diag, abs. Default: rel", cxxopts::value<std::string>())       //
+        ("t,trait", "Calculation Trait", cxxopts::value<std::string>())                                                      //
+        ("s,subdivision", "Subdivision Strategy (true to use voronoi subdivision)", cxxopts::value<bool>());
+
     auto result =
         options.parse(argc, argv); // TODO: exception error when input wrong
                                    // argument.  use boost::program_options
@@ -71,7 +63,7 @@ int main(int argc, char **argv) // parse arguments and call Hausdorff
     const string mesh_names[2] = {result["modelA"].as<std::string>(),
                                   result["modelB"].as<std::string>()};
     for (size_t m = 0; m < 2; ++m) {
-        const bool status = !jtf::mesh::load_obj(mesh_names[m].c_str(), t[m], v[m]);
+        const bool status = !meshio::load_obj(mesh_names[m].c_str(), t[m], v[m]);
         logs(cout) << "[mesh_" << m << "_num_of_vertices] " << v[m].size(2)
                    << std::endl;
         logs(cout) << "[mesh_" << m << "_num_of_faces] " << t[m].size(2)
@@ -88,25 +80,60 @@ int main(int argc, char **argv) // parse arguments and call Hausdorff
     // build bvh hierarchy
     tri_mesh A = {&v[0], &t[0]}, B = {&v[1], &t[1]};
 
-    // calculate bounding box
-    double error_ratio = 0.01;
+    StopCondition stop = StopCondition::REL;
+
     double error = 0;
-    if (result.count("error")) {
-        error_ratio = result["error"].as<double>();
-        bbox box;
-        box.add(*A.v_);
-        error = sqrt(box.sqr_diagonal());
-        logs(cout) << "[bbox_diagonal] " << error << std::endl;
-        error *= error_ratio;
-        if (error < 1e-12) {
-            logs(cerr) << "expected error bound is too low, fix to 1e-12"
-                       << std::endl;
-            error = 1e-12;
+
+    if (result.count("condition")) {
+        if (result["condition"].as<std::string>() == "rel") {
+            stop = StopCondition::REL;
+            if (result.count("error")) {
+                error = result["error"].as<double>();
+            } else {
+                error = 0.01;
+            }
+            logs(cout) << "[rel_error_bound] " << error << std::endl;
+        } else if (result["condition"].as<std::string>() == "diag") {
+            stop = StopCondition::ABS;
+            double error_ratio = 0.01;
+            if (result.count("error")) {
+                error_ratio = result["error"].as<double>();
+            }
+            bbox box;
+            box.add(*A.v_);
+            error = sqrt(box.sqr_diagonal());
+            logs(cout) << "[bbox_diagonal] " << error << std::endl;
+            error *= error_ratio;
+            if (error < 1e-12) {
+                logs(cerr) << "expected error bound is too low, fix to 1e-12"
+                           << std::endl;
+                error = 1e-12;
+            }
+            logs(cout) << "[error_bound] " << error << std::endl;
+
+        } else if (result["condition"].as<std::string>() == "abs") {
+            stop = StopCondition::ABS;
+            if (result.count("error")) {
+                error = result["error"].as<double>();
+            } else {
+                error = 1e-12;
+            }
+            logs(cout) << "[error_bound] " << error << std::endl;
+        } else {
+            logs(cout) << "[Error] " << result["condition"].as<std::string>()
+                       << " is not a valid stop condition." << std::endl;
+            exit(-1);
         }
-        logs(cout) << "[error_bound] " << error << std::endl;
     } else {
-        logs(cout) << "use relative error" << std::endl;
+        stop = StopCondition::REL;
+        if (result.count("error")) {
+            error = result["error"].as<double>();
+        } else {
+            error = 0.01;
+        }
+        logs(cout) << "[rel_error_bound] " << error << std::endl;
     }
+    logs(cout) << "[stop_condition] " << (stop == StopCondition::ABS ? "abs" : "rel") << std::endl;
 
     // build bvh tree
     high_resolution_clock::time_point begin_clock = high_resolution_clock::now();
@@ -143,10 +170,10 @@ int main(int argc, char **argv) // parse arguments and call Hausdorff
     }
 
     function<bool(double, double)> stop_condition;
-    if (result.count("error")) {
-        stop_condition = [&error](double L, double U) { return U - L < error; };
+    if (stop == StopCondition::ABS) {
+        stop_condition = [error](double L, double U) { return U - L < error; };
     } else {
-        stop_condition = [](double L, double U) { return U - L < L * 0.01; };
+        stop_condition = [error](double L, double U) { return U - L < L * error; };
     }
 
     hausdorff_result hd_result =
