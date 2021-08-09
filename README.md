@@ -10,6 +10,9 @@ B.obj that `U - L < 1e-6`.
 hausdorff -a A.obj -b B.obj -e 1e-6 -c abs -t point
 ```
 
+The output will contain a line in the form of `[distance] L - U` and
+report many detailed information about the computational procedure.
+
 ## Installation
 
 This project can be built easily by:
