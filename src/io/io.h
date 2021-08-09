@@ -2,7 +2,9 @@
 	State Key Lab of CAD&CG Zhejiang Unv.
 
 	Author: 
-          Tengfei Jiang
+          Yicun Zheng (3130104113@zju.edu.cn)
+          Haoran Sun (hrsun@zju.edu.cn)
+          Jin Huang (hj@cad.zju.edu.cn)
 
 	Copyright (c) 2004-2021 <Jin Huang>
 	All rights reserved.
@@ -18,8 +20,7 @@
 #include <iostream>
 #include <zjucad/matrix/matrix.h>
 
-namespace jtf {
-namespace mesh {
+namespace meshio {
 
 typedef zjucad::matrix::matrix<double> matrixd;
 typedef zjucad::matrix::matrix<size_t> matrixst;
@@ -33,7 +34,6 @@ typedef zjucad::matrix::matrix<size_t> matrixst;
 ///
 int load_obj(const char *filename, matrixst &mesh, matrixd &node);
 
-} // namespace mesh
-} // namespace jtf
+} // namespace meshio
 
 #endif //TRIMESH_IO_H

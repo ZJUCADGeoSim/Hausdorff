@@ -10,7 +10,7 @@
 #
 #	Licensed under the MIT License.
 
-file(GLOB jtf_meshio_src "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
+file(GLOB meshio_src "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 
-add_library(jtf_meshio ${jtf_meshio_src})
-target_link_libraries(jtf_meshio zjucad::matrix)
+add_library(meshio ${meshio_src})
+target_link_libraries(meshio zjucad::matrix igl::core Eigen3::Eigen)

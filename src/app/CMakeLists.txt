@@ -11,4 +11,4 @@
 #	Licensed under the MIT License.
 
 add_executable(hausdorff main.cpp)
-target_link_libraries(hausdorff zycgeo_hausdorff zjucad::matrix jtf_meshio cxxopts)
+target_link_libraries(hausdorff zycgeo_hausdorff zjucad::matrix meshio cxxopts)

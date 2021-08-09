@@ -45,6 +45,39 @@ CPMAddPackage(
   OPTIONS "CXXOPTS_BUILD_EXAMPLES OFF" "CXXOPTS_BUILD_TESTS OFF"
 )
 
+# ===================================================================================
+# Only used for IO
+CPMAddPackage(
+  NAME "Eigen3"
+  GIT_REPOSITORY "https://gitlab.com/libeigen/eigen.git"
+  GIT_TAG "3.4"
+  OPTIONS
+    "BUILD_TESTING OFF"
+    "EIGEN_BUILD_DOC OFF"  
+    "EIGEN_LEAVE_TEST_IN_ALL_TARGET OFF"
+    "EIGEN_BUILD_PKGCONFIG OFF"
+)
+CPMAddPackage(
+    NAME "libigl"
+    GIT_REPOSITORY "https://github.com.cnpmjs.org/libigl/libigl.git"
+    GIT_TAG "v2.3.0"
+    OPTIONS 
+        "LIBIGL_USE_STATIC_LIBRARY OFF"
+        "LIBIGL_WITH_COMISO OFF"
+        "LIBIGL_WITH_EMBREE OFF"
+        "LIBIGL_WITH_OPENGL OFF"
+        "LIBIGL_WITH_OPENGL_GLFW OFF"
+        "LIBIGL_WITH_OPENGL_GLFW_IMGUI OFF"
+        "LIBGIL_WITH_PNG OFF"
+        "LIBIGL_WITH_TETGEN OFF"
+        "LIBIGL_WITH_TRIANGLE OFF"
+        "LIBIGL_WITH_PREDICATES OFF"
+        "LIBIGL_WITH_XML OFF"
+        "LIBIGL_WITH_PYTHON OFF"
+
+)
+# ==============================================================================
+
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
