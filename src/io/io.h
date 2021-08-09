@@ -12,8 +12,8 @@
 	Licensed under the MIT License.
 */
 
-#ifndef JTF_MESH_IO_H
-#define JTF_MESH_IO_H
+#ifndef MESH_IO_H
+#define MESH_IO_H
 
 #include <deque>
 #include <fstream>
