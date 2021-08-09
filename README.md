@@ -21,7 +21,7 @@ cmake --build build
 
 Then, you can find the binary `hausdorff` at `./build/bin`.
 
-Run with our method for upper bound estimation:
+Run our method for bound estimation:
 
 ```bash
 ./build/bin/hausdorff -a ./sample_data/hand-tri-smooth.obj -b ./sample_data/hand-tri.obj -t point
@@ -29,15 +29,15 @@ Run with our method for upper bound estimation:
 
 ## More complicated usages
 
-* Run with Tang et al. [2009]'s method for upper bound estimation:
+* Run Tang et al. [2009]'s method for bound estimation:
 ```bash
 ./build/bin/hausdorff -a ./sample_data/hand-tri-smooth.obj -b ./sample_data/hand-tri.obj -t triangle
 ```
 
-* Relative error can be applied via options `-e 0.01 -c rel`, then
-  the stop condition is `U - L < 0.01 * L`
-* Diag-rel error can be applied via options `-e 0.01 -c diag`, then
-  the stop condition is `U - L < 0.01 * diag length of bbox`
+* Relative error can be applied via options `-e 0.01 -c rel`.  It
+  implies the stop condition `U - L < 0.01 * L`.
+* Diag-rel error can be applied via options `-e 0.01 -c diag`.  It
+  implies the stop condition `U - L < 0.01 * diag length of bbox`.
 
 ## Motivation of this work
 
