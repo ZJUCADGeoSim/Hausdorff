@@ -42,12 +42,12 @@ int main(int argc, char **argv) // parse arguments and call Hausdorff
 
     cxxopts::Options options("Hausdorff Distance",
                              "Bounded Controlled Hausdorff Distance Calculator");
-    options.add_options()("a,modelA", "Model A", cxxopts::value<std::string>())                                              //
-        ("b,modelB", "Model B", cxxopts::value<std::string>())                                                               //
-        ("e,error", "Error Tolerance, percentage of the diagronal of the bounding box of model A", cxxopts::value<double>()) //
-        ("c,condition", "Stop conditon. Possible values: rel, diag, abs. Default: rel", cxxopts::value<std::string>())       //
-        ("t,trait", "Calculation Trait", cxxopts::value<std::string>())                                                      //
-        ("s,subdivision", "Subdivision Strategy (true to use voronoi subdivision)", cxxopts::value<bool>());
+    options.add_options()("a,modelA", "Model A", cxxopts::value<std::string>())                                                                                  //
+        ("b,modelB", "Model B", cxxopts::value<std::string>())                                                                                                   //
+        ("e,error", "Error Tolerance, the interpretation is decided by -c. Default: 0.01(when -c rel or -c diag), 1e-12(when -c abs)", cxxopts::value<double>()) //
+        ("c,condition", "Stop conditon. Possible values: rel, diag, abs. Default: rel", cxxopts::value<std::string>())                                           //
+        ("t,trait", "Calculation Trait. Possible values: triangle, point. Default: point", cxxopts::value<std::string>())                                        //
+        ("s,subdivision", "Subdivision Strategy (true to use voronoi subdivision). Default: false", cxxopts::value<bool>());
 
     auto result =
         options.parse(argc, argv); // TODO: exception error when input wrong
