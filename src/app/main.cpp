@@ -42,11 +42,11 @@ int main(int argc, char **argv) // parse arguments and call Hausdorff
 
     cxxopts::Options options("Hausdorff Distance",
                              "Bounded Controlled Hausdorff Distance Calculator");
-    options.add_options()("a,modelA", "Model A", cxxopts::value<std::string>())                                                                                  //
-        ("b,modelB", "Model B", cxxopts::value<std::string>())                                                                                                   //
-        ("e,error", "Error Tolerance, the interpretation is decided by -c. Default: 0.01(when -c rel or -c diag), 1e-12(when -c abs)", cxxopts::value<double>()) //
-        ("c,condition", "Stop conditon. Possible values: rel, diag, abs. Default: rel", cxxopts::value<std::string>())                                           //
-        ("t,trait", "Calculation Trait. Possible values: triangle, point. Default: point", cxxopts::value<std::string>())                                        //
+    options.add_options()("a,modelA", "Model A", cxxopts::value<std::string>())                                                                                //
+        ("b,modelB", "Model B", cxxopts::value<std::string>())                                                                                                 //
+        ("e,error", "Error Tolerance, the interpretation is decided by -c. Default: 0.01 when -c rel, 1e-10 when -c abs or -c diag", cxxopts::value<double>()) //
+        ("c,condition", "Stop conditon. Possible values: rel, diag, abs. Default: rel", cxxopts::value<std::string>())                                         //
+        ("t,trait", "Calculation Trait. Possible values: triangle, point. Default: point", cxxopts::value<std::string>())                                      //
         ("s,subdivision", "Subdivision Strategy (true to use voronoi subdivision). Default: false", cxxopts::value<bool>());
 
     auto result =
@@ -95,7 +95,7 @@ int main(int argc, char **argv) // parse arguments and call Hausdorff
             logs(cout) << "[rel_error_bound] " << error << std::endl;
         } else if (result["condition"].as<std::string>() == "diag") {
             stop = StopCondition::ABS;
-            double error_ratio = 0.01;
+            double error_ratio = 1e-10;
             if (result.count("error")) {
                 error_ratio = result["error"].as<double>();
             }
@@ -116,7 +116,7 @@ int main(int argc, char **argv) // parse arguments and call Hausdorff
             if (result.count("error")) {
                 error = result["error"].as<double>();
             } else {
-                error = 1e-12;
+                error = 1e-10;
             }
             logs(cout) << "[error_bound] " << error << std::endl;
         } else {
