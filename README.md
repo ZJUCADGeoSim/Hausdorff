@@ -17,7 +17,7 @@ report many detailed information about the computational procedure.
 
 This project can be built easily by:
 ```bash
-git clone git@github.com:ZJUCADGeoSim/hausdorff.git
+git clone https://github.com/ZJUCADGeoSim/Hausdorff.git
 cmake -S . -B build
 cmake --build build 
 ```
