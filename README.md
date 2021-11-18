@@ -1,4 +1,5 @@
 # Efficient Hausdorff Distance Computation for Triangle Meshes with Error Bound
+Paper: https://onlinelibrary.wiley.com/doi/full/10.1111/cgf.14395
 
 ## What is it?
 
