@@ -1,0 +1,51 @@
+title: Efficient Hausdorff Distance Computation for Triangle Meshes with Error Bound
+abstract: This repository contains the source code of the paper Economic Upper Bound Estimation in Hausdorff Distance Computation for Triangle Meshes by Yicun Zheng, Haoran Sun, Xinguo Liu, Hujun Bao and Jin Huang, from Computer Graphics Forum
+doi: 10.1111/cgf.14395
+repository-code: https://github.com/ZJUCADGeoSim/Hausdorff
+version: 1.0.0
+date-released: 2021-10-06
+message: If you use this software in your work, please cite it using the following metadata.
+authors:
+  - given-names: Yicun
+    family-names: Zheng
+    affiliation: State Key Lab of CAD&CG Zhejiang University  Hangzhou China
+  - given-names: Haoran
+    family-names: Sun
+    affiliation: State Key Lab of CAD&CG Zhejiang University  Hangzhou China
+  - given-names: Xinguo
+    family-names: Liu
+    affiliation: State Key Lab of CAD&CG Zhejiang University  Hangzhou China
+  - given-names: Hujun
+    family-names: Bao
+    affiliation: State Key Lab of CAD&CG Zhejiang University  Hangzhou China
+  - given-names: Jin
+    family-names: Huang
+    affiliation: State Key Lab of CAD&CG Zhejiang University  Hangzhou China
+preferred-citation:
+  type: article
+  authors:
+  - given-names: Yicun
+    family-names: Zheng
+    affiliation: State Key Lab of CAD&CG Zhejiang University  Hangzhou China
+  - given-names: Haoran
+    family-names: Sun
+    affiliation: State Key Lab of CAD&CG Zhejiang University  Hangzhou China
+  - given-names: Xinguo
+    family-names: Liu
+    affiliation: State Key Lab of CAD&CG Zhejiang University  Hangzhou China
+  - given-names: Hujun
+    family-names: Bao
+    affiliation: State Key Lab of CAD&CG Zhejiang University  Hangzhou China
+  - given-names: Jin
+    family-names: Huang
+    affiliation: State Key Lab of CAD&CG Zhejiang University  Hangzhou China
+  doi: 10.1111/cgf.14395
+  journal: "Computer Graphics Forum"
+  month: 2
+  start: 46
+  end: 56
+  title: "Economic Upper Bound Estimation in Hausdorff Distance Computation for Triangle Meshes"
+  issue: 1
+  volume: 41
+  year: 2022
+cff-version: 1.2.0
